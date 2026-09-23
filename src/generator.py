@@ -5,7 +5,8 @@ import os
 import json
 import requests
 from io import BytesIO
-import google.generativeai as genai
+from google import genai
+import os
 from gtts import gTTS
 from moviepy.editor import AudioFileClip, ImageClip, CompositeAudioClip, concatenate_videoclips, vfx
 from moviepy.config import change_settings

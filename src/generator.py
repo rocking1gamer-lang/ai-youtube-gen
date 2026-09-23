@@ -78,8 +78,8 @@ def generate_curriculum(previous_titles=None):
     """Generates the entire course curriculum using Gemini."""
     print("🤖 No content plan found. Generating a new curriculum from scratch...")
     try:
-        genai.configure(api_key=os.environ["GOOGLE_API_KEY"])
-        # model = genai.GenerativeModel('gemini-1.5-flash')
+        client = genai.Client(api_key=os.environ["GOOGLE_API_KEY"])
+        
         model = genai.GenerativeModel('gemini-2.5-flash')
 
         #Optional: Add prior lesson titles for continuation
@@ -100,7 +100,10 @@ def generate_curriculum(previous_titles=None):
         Respond with ONLY a valid JSON object. The object must contain a key "lessons" which is a list of 20 lesson objects.
         Each lesson object must have these keys: "chapter", "part", "title", "status" (defaulted to "pending"), and "youtube_id" (defaulted to null).
         """
-        response = model.generate_content(prompt)
+        response = client.models.generate_content(
+    model='gemini-2.5-flash',
+    contents=prompt
+        )
         json_string = response.text.strip().replace("```json", "").replace("```", "")
         curriculum = json.loads(json_string)
         print("✅ New curriculum generated successfully!")

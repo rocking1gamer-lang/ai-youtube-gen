@@ -117,9 +117,8 @@ def generate_lesson_content(lesson_title):
     """Generates the content for one long-form lesson and its promotional short."""
     print(f"🤖 Generating content for lesson: '{lesson_title}'...")
     try:
-        genai.configure(api_key=os.environ["GOOGLE_API_KEY"])
-        # model = genai.GenerativeModel('gemini-1.5-flash')
-        model = genai.GenerativeModel('gemini-1.5-flash')
+        client = genai.Client(api_key=os.environ["GOOGLE_API_KEY"])
+        
         prompt = f"""
         You are creating a lesson for the 'AI for Developers by {YOUR_NAME}' series. The topic is '{lesson_title}'.
         The style is: Assume the viewer is a beginner developer or non-tech person who wants to learn AI from scratch.
@@ -132,7 +131,10 @@ def generate_lesson_content(lesson_title):
 
         Return only valid JSON.
         """
-        response = model.generate_content(prompt)
+        response = client.models.generate_content(
+    model='gemini-2.5-flash',
+    contents=prompt
+        )
         json_string = response.text.strip().replace("```json", "").replace("```", "")
         content = json.loads(json_string)
         print("✅ Lesson content generated successfully.")

@@ -80,7 +80,7 @@ def generate_curriculum(previous_titles=None):
     try:
         client = genai.Client(api_key=os.environ["GOOGLE_API_KEY"])
         
-        model = genai.GenerativeModel('gemini-2.5-flash')
+        model = genai.GenerativeModel('gemini-3.6-flash')
 
         #Optional: Add prior lesson titles for continuation
         history = ""
@@ -101,7 +101,7 @@ def generate_curriculum(previous_titles=None):
         Each lesson object must have these keys: "chapter", "part", "title", "status" (defaulted to "pending"), and "youtube_id" (defaulted to null).
         """
         response = client.models.generate_content(
-    model='gemini-2.5-flash',
+    model='gemini-3.6-flash',
     contents=prompt
         )
         json_string = response.text.strip().replace("```json", "").replace("```", "")
@@ -132,7 +132,7 @@ def generate_lesson_content(lesson_title):
         Return only valid JSON.
         """
         response = client.models.generate_content(
-    model='gemini-2.5-flash',
+    model='gemini-3.6-flash',
     contents=prompt
         )
         json_string = response.text.strip().replace("```json", "").replace("```", "")
